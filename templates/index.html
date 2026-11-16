@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignFlow AI - Real-Time Sign Language Recognition & Translation</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- =========================================================================
+         1. NAVBAR
+         ========================================================================= -->
+    <nav class="navbar navbar-expand-lg navbar-custom py-2">
+        <div class="container-fluid px-lg-5">
+            <!-- Brand -->
+            <a class="brand-container" href="#" onclick="return false;">
+                <div class="brand-icon">
+                    <i class="bi bi-hand-index-thumb"></i>
+                </div>
+                <div>
+                    <div class="brand-title">SignFlow AI</div>
+                    <div class="brand-subtitle">Deep Learning • Computer Vision</div>
+                </div>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <i class="bi bi-list fs-2 text-dark"></i>
+            </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse justify-content-center" id="navMenu">
+                <ul class="navbar-nav gap-1 my-2 my-lg-0 bg-white p-1 rounded-pill border shadow-sm">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom active" data-target="page-home">
+                            <i class="bi bi-house-door me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" data-target="page-live">
+                            <i class="bi bi-camera-video me-1"></i> Live Detection
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" data-target="page-tts">
+                            <i class="bi bi-volume-up me-1"></i> Text-to-Speech
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" data-target="page-learn">
+                            <i class="bi bi-book me-1"></i> Learn Sign Language
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" data-target="page-about">
+                            <i class="bi bi-info-circle me-1"></i> About Project
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Status Indicator -->
+            <div class="d-none d-lg-flex align-items-center gap-2">
+                <span class="status-pill status-active" id="systemHealthBadge">
+                    <span class="pulse-indicator"></span> Deep Learning Ready
+                </span>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- =========================================================================
+         PAGE 1: HOME PAGE
+         ========================================================================= -->
+    <main id="page-home" class="app-page active-page py-5">
+        <div class="container px-lg-5">
+            
+            <!-- Hero Section -->
+            <div class="row align-items-center g-5 py-4">
+                <div class="col-lg-7">
+                    <div class="hero-badge mb-3">
+                        <i class="bi bi-stars"></i> Final Year Academic Project • AI for Accessibility
+                    </div>
+                    <h1 class="hero-title mb-3">
+                        Bridging Silence with <span class="hero-gradient-text">Real-Time Intelligence</span>
+                    </h1>
+                    <p class="lead text-secondary mb-4" style="font-size: 1.15rem;">
+                        SignFlow AI transforms live hand gestures into readable text and vocalized speech using 
+                        MediaPipe 3D Landmark Tracking and Deep Convolutional/Neural Networks. Empowering inclusive, 
+                        seamless two-way communication.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <button class="btn btn-primary-gradient px-4 py-3 fs-6" id="heroStartBtn">
+                            <i class="bi bi-camera-video-fill"></i> Start Live Detection
+                        </button>
+                        <button class="btn btn-secondary-soft px-4 py-3 fs-6" id="heroLearnBtn">
+                            <i class="bi bi-grid-3x3-gap"></i> Explore Sign Dictionary
+                        </button>
+                    </div>
+
+                    <!-- Metrics Badges -->
+                    <div class="d-flex flex-wrap gap-4 mt-5 pt-3 border-top">
+                        <div>
+                            <h3 class="fw-bold mb-0 text-dark">100%</h3>
+                            <span class="small text-muted">Test Accuracy</span>
+                        </div>
+                        <div class="border-start ps-4">
+                            <h3 class="fw-bold mb-0 text-dark">&lt; 1 ms</h3>
+                            <span class="small text-muted">Model Latency</span>
+                        </div>
+                        <div class="border-start ps-4">
+                            <h3 class="fw-bold mb-0 text-dark">76</h3>
+                            <span class="small text-muted">Invariant Features</span>
+                        </div>
+                        <div class="border-start ps-4">
+                            <h3 class="fw-bold mb-0 text-dark">Webcam</h3>
+                            <span class="small text-muted">Zero Sensor Hardware</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Graphic Illustration -->
+                <div class="col-lg-5 text-center">
+                    <div class="app-card p-4 position-relative">
+                        <div class="p-4 rounded-4" style="background: linear-gradient(135deg, var(--lavender-50), var(--sky-50));">
+                            <i class="bi bi-hand-index-thumb" style="font-size: 6.5rem; color: var(--lavender-500);"></i>
+                            <div class="mt-3">
+                                <span class="badge bg-white text-dark shadow-sm px-3 py-2 rounded-pill fw-bold border">
+                                    <i class="bi bi-cpu text-primary me-1"></i> 21 Keypoint 3D Tracking
+                                </span>
+                            </div>
+                            <div class="mt-3 text-muted small">
+                                "Hand Gesture &rarr; Deep Learning &rarr; Text Conversion &rarr; Speech Output"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works Section -->
+            <div class="py-5">
+                <div class="text-center mb-5">
+                    <h6 class="text-uppercase fw-bold" style="color: var(--lavender-600); letter-spacing: 0.08em;">Workflow Pipeline</h6>
+                    <h2 class="fw-bold">How the System Works</h2>
+                    <p class="text-muted">Four optimized steps executing at 30+ frames per second in your browser</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="step-card">
+                            <div class="step-icon-wrap icon-purple">
+                                <i class="bi bi-camera-video"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">1. Video Capture</h5>
+                            <p class="text-muted small mb-0">Captures video frames in real time from any standard webcam without requiring external sensors.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="step-card">
+                            <div class="step-icon-wrap icon-blue">
+                                <i class="bi bi-diagram-3"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">2. 3D Landmark Extraction</h5>
+                            <p class="text-muted small mb-0">MediaPipe detects 21 hand joints, normalized for scale, distance, and screen translation invariance.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="step-card">
+                            <div class="step-icon-wrap icon-emerald">
+                                <i class="bi bi-cpu"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">3. Deep Learning Prediction</h5>
+                            <p class="text-muted small mb-0">Deep Multilayer Perceptron with Batch Normalization classifies the posture with 100% verified test accuracy.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="step-card">
+                            <div class="step-icon-wrap icon-amber">
+                                <i class="bi bi-volume-up"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">4. Text & Speech Output</h5>
+                            <p class="text-muted small mb-0">Temporal smoothing accumulates letters into sentences and vocalizes them via the Web Speech API.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- =========================================================================
+         PAGE 2: LIVE DETECTION PAGE
+         ========================================================================= -->
+    <main id="page-live" class="app-page py-4">
+        <div class="container-fluid px-lg-5">
+            
+            <div class="row g-4">
+                <!-- Left Viewport Column -->
+                <div class="col-lg-7 col-xl-8">
+                    <div class="app-card">
+                        
+                        <!-- Top Viewport Bar -->
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <h5 class="fw-bold mb-0">
+                                    <i class="bi bi-camera-video text-primary me-2"></i>Live Gesture Recognition Feed
+                                </h5>
+                                <span class="status-pill status-idle" id="cameraStatusBadge">
+                                    <span class="pulse-indicator"></span> Camera Idle
+                                </span>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary-gradient py-2 px-3 small" id="startCamBtn">
+                                    <i class="bi bi-play-circle-fill"></i> Start Camera
+                                </button>
+                                <button class="btn btn-danger-soft py-2 px-3 small" id="stopCamBtn" disabled>
+                                    <i class="bi bi-stop-circle"></i> Stop Camera
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Video Screen Container -->
+                        <div class="webcam-viewport mb-3">
+                            <video id="webcamVideo" autoplay playsinline muted></video>
+                            <canvas id="outputCanvas" width="640" height="480" style="display: none;"></canvas>
+                            
+                            <div id="cameraPlaceholder" class="camera-placeholder">
+                                <i class="bi bi-camera-video-off"></i>
+                                <h6 class="fw-bold text-light mb-1">Webcam Inactive</h6>
+                                <p class="small text-muted mb-3" style="max-width: 320px;">
+                                    Click "Start Camera" above and grant browser camera permission to begin real-time recognition.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Hand Detection Notice -->
+                        <div class="d-flex justify-content-between align-items-center py-2 px-3 rounded-3 mb-3" style="background: var(--bg-card-subtle);">
+                            <div id="handNotice" class="small text-muted">
+                                <i class="bi bi-info-circle me-1"></i> Click "Start Camera" to initiate hand landmark tracking.
+                            </div>
+                            <div class="small fw-semibold text-muted" id="latencyTag">Latency: 0 ms</div>
+                        </div>
+
+                        <!-- Quick Visual Gesture Reference Strip -->
+                        <div class="p-3 rounded-3 border" style="background: var(--bg-card-subtle); border-color: var(--border-soft);">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small fw-bold text-uppercase text-muted">
+                                    <i class="bi bi-images me-1 text-primary"></i> Quick Gesture Reference Cards
+                                </span>
+                                <a href="/static/images/signs/ASL_Alphabet_Chart.png" target="_blank" class="small fw-semibold text-primary text-decoration-none">
+                                    <i class="bi bi-box-arrow-up-right me-1"></i> Open Full A-Z Poster
+                                </a>
+                            </div>
+                            <div class="d-flex gap-2 overflow-x-auto py-1" style="max-height: 110px;">
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('A')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/A.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">A</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('B')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/B.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">B</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('C')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/C.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">C</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('D')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/D.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">D</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('E')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/E.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">E</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('F')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/F.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">F</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('I')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/I.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">I</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('L')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/L.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">L</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('O')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/O.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">O</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('V')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/V.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">V (Peace)</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('W')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/W.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">W</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('Y')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/Y.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-dark mt-1">Y</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('HELLO')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/HELLO.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-primary mt-1">HELLO</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('THANK_YOU')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/THANK_YOU.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-primary mt-1">THANK YOU</div>
+                                </div>
+                                <div class="text-center flex-shrink-0" onclick="openSignDetails('I_LOVE_YOU')" style="cursor: pointer;">
+                                    <img src="/static/images/signs/I_LOVE_YOU.png" class="rounded border shadow-sm" style="height: 65px; width: auto;">
+                                    <div class="small fw-bold text-primary mt-1">I LOVE YOU</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right Prediction & Sentence Column -->
+                <div class="col-lg-5 col-xl-4">
+                    <div class="d-flex flex-column gap-3">
+                        
+                        <!-- Prediction Hero Badge -->
+                        <div class="app-card app-card-sm">
+                            <div class="text-uppercase small fw-bold text-muted mb-2">Detected Gesture</div>
+                            <div class="prediction-box">
+                                <div>
+                                    <div class="big-sign-display" id="predSignBadge">--</div>
+                                    <span class="small text-muted">Primary Gesture Class</span>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-white text-primary border shadow-sm px-3 py-2 fs-6 rounded-pill" id="predConfBadge">0%</span>
+                                    <div class="small text-muted mt-1">Confidence</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top 3 Probability Breakdown -->
+                        <div class="app-card app-card-sm">
+                            <div class="text-uppercase small fw-bold text-muted mb-2">
+                                <i class="bi bi-bar-chart-line me-1"></i> Class Probability Distribution
+                            </div>
+                            <div id="top3Container">
+                                <div class="text-muted small py-2">Start camera to see live probability distribution.</div>
+                            </div>
+                        </div>
+
+                        <!-- Translated Sentence & Speech Action Card -->
+                        <div class="app-card">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="text-uppercase small fw-bold text-muted">
+                                    <i class="bi bi-chat-square-text me-1 text-primary"></i> Translated Text
+                                </div>
+                                <div class="audio-visualizer-bar" id="audioVisualizer">
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                </div>
+                            </div>
+
+                            <div class="sentence-container mb-3" id="sentenceOutput">
+                                <span class="text-muted">(Hold up sign gestures to formulate text...)</span>
+                            </div>
+
+                            <!-- Sentence Controls -->
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <button class="btn btn-secondary-soft btn-sm" id="spaceSentenceBtn">
+                                    <i class="bi bi-space"></i> Add Space
+                                </button>
+                                <button class="btn btn-secondary-soft btn-sm" id="backspaceSentenceBtn">
+                                    <i class="bi bi-backspace"></i> Delete Char
+                                </button>
+                                <button class="btn btn-danger-soft btn-sm ms-auto" id="clearSentenceBtn">
+                                    <i class="bi bi-trash3"></i> Clear Text
+                                </button>
+                            </div>
+
+                            <!-- Text-to-Speech Vocalizer Controls -->
+                            <div class="d-flex gap-2 pt-2 border-top">
+                                <button class="btn btn-primary-gradient w-100 justify-content-center py-2" id="speakSentenceBtn">
+                                    <i class="bi bi-volume-up-fill"></i> Speak Sentence
+                                </button>
+                                <button class="btn btn-secondary-soft px-3" id="pauseSentenceBtn" title="Pause / Resume Speech">
+                                    <i class="bi bi-pause-fill"></i>
+                                </button>
+                                <button class="btn btn-secondary-soft px-3" id="stopSentenceBtn" title="Stop Speech">
+                                    <i class="bi bi-stop-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- =========================================================================
+         PAGE 3: TEXT-TO-SPEECH LAB
+         ========================================================================= -->
+    <main id="page-tts" class="app-page py-4">
+        <div class="container px-lg-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    
+                    <div class="app-card">
+                        <div class="mb-4">
+                            <span class="hero-badge mb-2"><i class="bi bi-soundwave"></i> Web Speech API Voice Engine</span>
+                            <h3 class="fw-bold mb-1">Text-to-Speech Communication Lab</h3>
+                            <p class="text-muted">Type any sentence to translate it directly into vocalized speech with custom voice options.</p>
+                        </div>
+
+                        <!-- Text Input -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Enter Text to Speak</label>
+                            <textarea id="ttsText" class="speech-textarea" rows="4" placeholder="Type a sentence here (e.g. 'Hello, how can I help you today?')...">Hello! Welcome to our Sign Language Recognition and Translation project demonstration.</textarea>
+                        </div>
+
+                        <!-- Voice, Rate & Pitch Controls -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Voice Selection</label>
+                                <select id="voiceSelect" class="form-select border-soft rounded-3">
+                                    <option>Default Voice</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase d-flex justify-content-between">
+                                    <span>Speed</span>
+                                    <span id="rateVal" class="text-primary">1.0x</span>
+                                </label>
+                                <input type="range" class="form-range" id="rateRange" min="0.5" max="2.0" step="0.1" value="1.0">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase d-flex justify-content-between">
+                                    <span>Pitch</span>
+                                    <span id="pitchVal" class="text-primary">1.0</span>
+                                </label>
+                                <input type="range" class="form-range" id="pitchRange" min="0.5" max="2.0" step="0.1" value="1.0">
+                            </div>
+                        </div>
+
+                        <!-- Playback Controls -->
+                        <div class="d-flex flex-wrap gap-2 mb-4">
+                            <button class="btn btn-primary-gradient px-4 py-2" id="ttsSpeakBtn">
+                                <i class="bi bi-play-fill fs-5"></i> Convert to Speech
+                            </button>
+                            <button class="btn btn-secondary-soft px-3" id="ttsPauseBtn">
+                                <i class="bi bi-pause-fill"></i> Pause / Resume
+                            </button>
+                            <button class="btn btn-danger-soft px-3" id="ttsStopBtn">
+                                <i class="bi bi-stop-fill"></i> Stop Audio
+                            </button>
+                        </div>
+
+                        <!-- Quick Phrase Presets -->
+                        <div class="pt-3 border-top">
+                            <div class="small fw-bold text-muted text-uppercase mb-2">Quick Accessibility Phrases:</div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button class="btn btn-sm btn-outline-secondary rounded-pill quick-phrase-btn" data-phrase="Hello, nice to meet you!">
+                                    "Hello, nice to meet you!"
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary rounded-pill quick-phrase-btn" data-phrase="I am using sign language to communicate with you.">
+                                    "I am using sign language..."
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary rounded-pill quick-phrase-btn" data-phrase="Thank you very much for your patience!">
+                                    "Thank you very much!"
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary rounded-pill quick-phrase-btn" data-phrase="Could you please write that down?">
+                                    "Could you please write that down?"
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- =========================================================================
+         PAGE 4: LEARN SIGN LANGUAGE & TEXT-TO-SIGN
+         ========================================================================= -->
+    <main id="page-learn" class="app-page py-4">
+        <div class="container-fluid px-lg-5">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-4">
+                <span class="hero-badge mb-2"><i class="bi bi-mortarboard"></i> Educational Learning Module</span>
+                <h2 class="fw-bold">Sign Language Visual Dictionary & Text-to-Sign</h2>
+                <p class="text-muted">Explore ASL Alphabets (A–Z), Numbers (0–9), and translate text into sequential sign illustrations.</p>
+            </div>
+
+            <!-- Text-to-Sign Interactive Converter Strip -->
+            <div class="app-card mb-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                    <div>
+                        <h5 class="fw-bold mb-0"><i class="bi bi-translate text-primary me-2"></i>Text-to-Sign Interactive Translator</h5>
+                        <span class="text-muted small">Type any word to visualize the corresponding sign language illustrations sequentially.</span>
+                    </div>
+                    <button class="btn btn-secondary-soft btn-sm" id="playSignSeqBtn">
+                        <i class="bi bi-play-circle me-1"></i> Animate Sequence
+                    </button>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-light border-soft"><i class="bi bi-fonts"></i></span>
+                    <input type="text" id="textToSignInput" class="form-control border-soft py-2" placeholder="Type text here (e.g. HELLO 123)..." value="HELLO 123">
+                </div>
+
+                <div class="sign-strip-container" id="signStrip">
+                    <!-- Dynamic Sign Badges -->
+                </div>
+            </div>
+
+            <!-- Visual Sign Dictionary Section -->
+            <div class="app-card">
+                <!-- Search & Filter Controls -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 pb-3 border-bottom">
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-sm nav-link-custom sign-filter-pill active" data-category="all">All Signs</button>
+                        <button class="btn btn-sm nav-link-custom sign-filter-pill" data-category="alphabet">Alphabets (A–Z)</button>
+                        <button class="btn btn-sm nav-link-custom sign-filter-pill" data-category="number">Numbers (0–9)</button>
+                        <button class="btn btn-sm nav-link-custom sign-filter-pill" data-category="phrase">Common Phrases</button>
+                    </div>
+
+                    <div style="min-width: 250px;">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-light border-soft"><i class="bi bi-search"></i></span>
+                            <input type="text" id="searchSignInput" class="form-control border-soft" placeholder="Search by letter or sign name...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sign Cards Grid -->
+                <div class="row g-3" id="signGallery">
+                    <!-- Populated dynamically via sign_data.js -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- =========================================================================
+         PAGE 5: ABOUT PROJECT PAGE
+         ========================================================================= -->
+    <main id="page-about" class="app-page py-4">
+        <div class="container px-lg-5">
+            
+            <div class="app-card mb-4">
+                <span class="hero-badge mb-2"><i class="bi bi-journal-check"></i> Project Specification</span>
+                <h2 class="fw-bold mb-3">About SignFlow AI</h2>
+                <p class="lead text-secondary">
+                    SignFlow AI is an end-to-end Deep Learning and Computer Vision application designed to solve 
+                    the communication gap between hearing/speech-impaired individuals and non-signers.
+                </p>
+                <hr class="my-4">
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold text-dark"><i class="bi bi-bullseye text-primary me-2"></i>Project Objectives</h5>
+                        <ul class="text-secondary small mt-2 d-flex flex-column gap-2">
+                            <li>Provide real-time sign language gesture recognition without expensive gloves or depth cameras.</li>
+                            <li>Achieve translation invariance and scale invariance across different camera setups and lighting conditions.</li>
+                            <li>Implement automatic sentence formulation with intelligent debouncing to prevent letter spamming.</li>
+                            <li>Offer two-way accessibility through Speech Synthesis (TTS) and Text-to-Sign visual learning.</li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h5 class="fw-bold text-dark"><i class="bi bi-stack text-info me-2"></i>Technology Stack</h5>
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+                            <span class="badge bg-light text-dark border p-2">Python 3.13</span>
+                            <span class="badge bg-light text-dark border p-2">TensorFlow & Keras</span>
+                            <span class="badge bg-light text-dark border p-2">MediaPipe Hands (Tasks API)</span>
+                            <span class="badge bg-light text-dark border p-2">OpenCV</span>
+                            <span class="badge bg-light text-dark border p-2">Flask REST Backend</span>
+                            <span class="badge bg-light text-dark border p-2">Web Speech API (TTS)</span>
+                            <span class="badge bg-light text-dark border p-2">Bootstrap 5 & Vanilla JS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deep Learning Architecture Breakdown -->
+            <div class="app-card mb-4">
+                <h4 class="fw-bold mb-3"><i class="bi bi-diagram-3 text-primary me-2"></i>Deep Learning Model & Feature Engineering</h4>
+                <p class="text-secondary small">
+                    Raw pixel coordinates fail when a user moves closer or further from the camera. SignFlow AI implements 
+                    a mathematically rigorous 76-dimensional geometric invariant feature extraction pipeline:
+                </p>
+
+                <div class="row g-3 small text-secondary mt-2">
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-light border h-100">
+                            <div class="fw-bold text-dark mb-1">1. Translation Invariance</div>
+                            Subtracts the wrist coordinate $(x_0, y_0, z_0)$ from all 21 keypoints. The hand is always centered at origin.
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-light border h-100">
+                            <div class="fw-bold text-dark mb-1">2. Scale Invariance</div>
+                            Divides relative coordinates by the maximum Euclidean norm $\max_i \|P_i - P_0\|$, guaranteeing identical features at any distance.
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-light border h-100">
+                            <div class="fw-bold text-dark mb-1">3. Geometric Distances</div>
+                            Computes 13 critical fingertip-to-wrist, adjacent tip, and thumb-to-tip Euclidean spans to accurately distinguish similar hand poses.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 rounded-3 bg-light border">
+                    <h6 class="fw-bold text-dark mb-2">Neural Network Topology:</h6>
+                    <code class="text-dark small">
+                        Input(76) &rarr; Dense(256) &rarr; BatchNorm &rarr; ReLU &rarr; Dropout(0.30) &rarr;
+                        Dense(128) &rarr; BatchNorm &rarr; ReLU &rarr; Dropout(0.25) &rarr;
+                        Dense(64) &rarr; BatchNorm &rarr; ReLU &rarr; Dropout(0.20) &rarr;
+                        Dense(19, Softmax)
+                    </code>
+                </div>
+            </div>
+
+            <!-- Verification & Test Metrics -->
+            <div class="app-card">
+                <h4 class="fw-bold mb-3"><i class="bi bi-check2-circle text-success me-2"></i>Performance Benchmark</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm small align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Metric</th>
+                                <th>Observed Value</th>
+                                <th>Benchmark Standard</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Test Set Accuracy</td>
+                                <td class="fw-bold text-success">100.00%</td>
+                                <td>&gt; 95.0%</td>
+                                <td><span class="badge bg-success">Passed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Single Inference Latency</td>
+                                <td class="fw-bold text-success">0.577 ms</td>
+                                <td>&lt; 30.0 ms (Real-time)</td>
+                                <td><span class="badge bg-success">Passed (1,734 FPS)</span></td>
+                            </tr>
+                            <tr>
+                                <td>Model Size</td>
+                                <td>249.5 KB</td>
+                                <td>&lt; 10 MB</td>
+                                <td><span class="badge bg-success">Lightweight</span></td>
+                            </tr>
+                            <tr>
+                                <td>Anti-Flicker Debounce</td>
+                                <td>1.2s Cooldown</td>
+                                <td>Prevents duplicate letter spam</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- =========================================================================
+         SIGN DETAILS MODAL
+         ========================================================================= -->
+    <div class="modal fade" id="signDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header border-0 bg-light pb-0">
+                    <h5 class="modal-title fw-bold" id="signModalTitle">Sign Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <div id="signModalSvg" style="width: 140px; height: 140px; margin: 0 auto 16px auto;"></div>
+                    <div class="text-start p-3 rounded-3 bg-light border mb-3">
+                        <div class="fw-bold small text-muted text-uppercase mb-1">Hand Posture Description:</div>
+                        <p id="signModalDesc" class="small text-secondary mb-0"></p>
+                    </div>
+                    <div class="text-start p-3 rounded-3 bg-light border">
+                        <div class="fw-bold small text-primary text-uppercase mb-1">Learning & Execution Tip:</div>
+                        <p id="signModalTips" class="small text-secondary mb-0"></p>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 bg-light pt-0">
+                    <button type="button" class="btn btn-secondary-soft btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =========================================================================
+         SCRIPTS
+         ========================================================================= -->
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Sign Language Dictionary Data -->
+    <script src="/static/js/sign_data.js"></script>
+    <!-- Application Logic -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{
+  "model_name": "SignFlow Deep Multilayer Perceptron",
+  "input_dimension": 76,
+  "num_classes": 19,
+  "classes": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "I",
+    "L",
+    "O",
+    "V",
+    "W",
+    "Y",
+    "HELLO",
+    "THANK_YOU",
+    "YES",
+    "NO",
+    "I_LOVE_YOU",
+    "SPACE",
+    "DELETE"
+  ],
+  "test_accuracy": 1.0,
+  "test_loss": 0.020340243354439735,
+  "total_samples": 8550,
+  "epochs_trained": 40,
+  "training_time_seconds": 36.85,
+  "final_train_accuracy": 0.9986633062362671,
+  "final_val_accuracy": 1.0
+}

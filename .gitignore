@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+env/
+venv/
+
+# Model cache & temporary logs
+model/.keras_cache/
+*.log
+.DS_Store
+Thumbs.db
